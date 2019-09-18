@@ -38,7 +38,7 @@ class ShiftingBottomNavigationTab extends BottomNavigationTab {
     }
 
     @Override
-    void init() {
+    protected void init() {
         paddingTopActive = (int) getResources().getDimension(R.dimen.shifting_height_top_padding_active);
         paddingTopInActive = (int) getResources().getDimension(R.dimen.shifting_height_top_padding_inactive);
 

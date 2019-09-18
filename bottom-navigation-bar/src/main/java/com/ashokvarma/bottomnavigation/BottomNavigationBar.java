@@ -111,6 +111,13 @@ public class BottomNavigationBar extends FrameLayout {
     private boolean mAutoHideEnabled;
     private boolean mIsHidden = false;
 
+    private FixedNavigationTabFactory fixedNavigationTabFactory;
+
+    public BottomNavigationBar setFixedNavigationTabFactory(FixedNavigationTabFactory fixedNavigationTabFactory) {
+        this.fixedNavigationTabFactory = fixedNavigationTabFactory;
+        return this;
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // View Default Constructors and Methods
     ///////////////////////////////////////////////////////////////////////////
@@ -391,7 +398,12 @@ public class BottomNavigationBar extends FrameLayout {
                 int itemWidth = widths[0];
 
                 for (BottomNavigationItem currentItem : mBottomNavigationItems) {
-                    FixedBottomNavigationTab bottomNavigationTab = new FixedBottomNavigationTab(getContext());
+                    BottomNavigationTab bottomNavigationTab;
+                    if (fixedNavigationTabFactory == null)
+                        bottomNavigationTab = createDefaultFixedBottomNavigationTab();
+                    else
+                        bottomNavigationTab = fixedNavigationTabFactory.createTab();
+
                     setUpTab(mMode == MODE_FIXED_NO_TITLE, bottomNavigationTab, currentItem, itemWidth, itemWidth);
                 }
 
@@ -414,6 +426,10 @@ public class BottomNavigationBar extends FrameLayout {
                 selectTabInternal(0, true, false, false);
             }
         }
+    }
+
+    private FixedBottomNavigationTab createDefaultFixedBottomNavigationTab() {
+        return new FixedBottomNavigationTab(getContext());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -25,7 +25,7 @@ import android.widget.TextView;
  * @see FrameLayout
  * @since 19 Mar 2016
  */
-abstract class BottomNavigationTab extends FrameLayout {
+public abstract class BottomNavigationTab extends FrameLayout {
 
     protected boolean isNoTitleMode;
 
@@ -46,13 +46,13 @@ abstract class BottomNavigationTab extends FrameLayout {
 
     protected BadgeItem badgeItem;
 
-    boolean isActive = false;
+    protected boolean isActive = false;
 
-    View containerView;
-    TextView labelView;
-    ImageView iconView;
-    FrameLayout iconContainerView;
-    BadgeTextView badgeView;
+    protected View containerView;
+    protected TextView labelView;
+    protected ImageView iconView;
+    protected FrameLayout iconContainerView;
+    protected BadgeTextView badgeView;
 
     public BottomNavigationTab(Context context) {
         this(context, null);
@@ -73,7 +73,7 @@ abstract class BottomNavigationTab extends FrameLayout {
         init();
     }
 
-    void init() {
+    protected void init() {
         setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 

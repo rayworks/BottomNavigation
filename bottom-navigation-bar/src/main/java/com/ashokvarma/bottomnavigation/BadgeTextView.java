@@ -14,11 +14,11 @@ import android.util.AttributeSet;
  * @since 23 Jun 2017
  */
 @SuppressLint("Instantiatable")
-class BadgeTextView extends AppCompatTextView {
+public class BadgeTextView extends AppCompatTextView {
 
     private ShapeBadgeItem mShapeBadgeItem;
 
-    private boolean mAreDimensOverridden;
+    protected boolean mAreDimensOverridden;
     private int mDesiredWidth = 100;
     private int mDesiredHeight = 100;
 
@@ -42,7 +42,7 @@ class BadgeTextView extends AppCompatTextView {
     /**
      * clear's all previous set values
      */
-    void clearPrevious() {
+    protected void clearPrevious() {
         mAreDimensOverridden = false;
         mShapeBadgeItem = null;
     }
@@ -50,7 +50,7 @@ class BadgeTextView extends AppCompatTextView {
     /**
      * @param shapeBadgeItem that can draw on top of the this view
      */
-    void setShapeBadgeItem(ShapeBadgeItem shapeBadgeItem) {
+    protected void setShapeBadgeItem(ShapeBadgeItem shapeBadgeItem) {
         mShapeBadgeItem = shapeBadgeItem;
     }
 
@@ -60,7 +60,7 @@ class BadgeTextView extends AppCompatTextView {
      * @param width new width that needs to be set
      * @param height new height that needs to be set
      */
-    void setDimens(int width, int height) {
+    protected void setDimens(int width, int height) {
         mAreDimensOverridden = true;
         mDesiredWidth = width;
         mDesiredHeight = height;
@@ -70,7 +70,7 @@ class BadgeTextView extends AppCompatTextView {
     /**
      * invalidate's view so badgeItem can draw again
      */
-    void recallOnDraw() {
+    protected void recallOnDraw() {
         invalidate();
     }
 
