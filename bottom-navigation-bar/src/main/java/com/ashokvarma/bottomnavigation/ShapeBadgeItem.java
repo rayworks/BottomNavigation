@@ -6,12 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.support.annotation.ColorRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.ViewGroup;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.ashokvarma.bottomnavigation.utils.Utils;
 
@@ -335,13 +336,33 @@ public class ShapeBadgeItem extends BadgeItem<ShapeBadgeItem> {
     }
 
     private void drawHeart(Canvas canvas) {
-        float curveLength = canvas.getHeight() / 3;
-
         mPath.reset();
-        mPath.moveTo(canvas.getWidth() / 2, canvas.getHeight());// bottom part
-        mPath.lineTo(curveLength / 3, 7 * curveLength / 4);
-        mPath.arcTo(new RectF(0, 0, canvas.getWidth() / 2, 2 * curveLength), -225, 225);
-        mPath.arcTo(new RectF(canvas.getWidth() / 2, 0, canvas.getWidth(), 2 * curveLength), -180, 225);
+        float width = canvas.getWidth();
+        float height = canvas.getHeight();
+
+        // Starting point
+        mPath.moveTo(width / 2, height / 5);
+
+        // Upper left path
+        mPath.cubicTo(5 * width / 14, 0,
+                0, height / 15,
+                width / 28, 2 * height / 5);
+
+        // Lower left path
+        mPath.cubicTo(width / 14, 2 * height / 3,
+                3 * width / 7, 5 * height / 6,
+                width / 2, height);
+
+        // Lower right path
+        mPath.cubicTo(4 * width / 7, 5 * height / 6,
+                13 * width / 14, 2 * height / 3,
+                27 * width / 28, 2 * height / 5);
+
+        // Upper right path
+        mPath.cubicTo(width, height / 15,
+                9 * width / 14, 0,
+                width / 2, height / 5);
+
         mPath.close();
 
         canvas.drawPath(mPath, mCanvasPaint);

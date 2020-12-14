@@ -3,21 +3,23 @@ package com.ashokvarma.bottomnavigation.sample
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import android.os.Parcel
+import android.os.Parcelable
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.ashokvarma.bottomnavigation.ShapeBadgeItem
 import com.ashokvarma.bottomnavigation.TextBadgeItem
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
-class HomeActivity : AppCompatActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener, BottomNavigationBar.OnTabSelectedListener, AdapterView.OnItemSelectedListener {
+class HomeActivity() : AppCompatActivity(), View.OnClickListener, CompoundButton.OnCheckedChangeListener, BottomNavigationBar.OnTabSelectedListener, AdapterView.OnItemSelectedListener, Parcelable {
 
     // Views
     private lateinit var bottomNavigationBar: BottomNavigationBar
@@ -47,6 +49,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, CompoundButton.O
 
     private lateinit var numberBadgeItem: TextBadgeItem
     private lateinit var shapeBadgeItem: ShapeBadgeItem
+
+    constructor(parcel: Parcel) : this() {
+        lastSelectedPosition = parcel.readInt()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,15 +225,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, CompoundButton.O
 
     override fun onTabSelected(position: Int) {
         lastSelectedPosition = position
-        setMessageText(position.toString() + " Tab Selected")
-        numberBadgeItem.setText(Integer.toString(position))
+        setMessageText("${position + 1} Tab Selected")
+        numberBadgeItem.setText((position + 1).toString())
         replaceFragments(position)
     }
 
     override fun onTabUnselected(position: Int) {}
 
     override fun onTabReselected(position: Int) {
-        setMessageText(position.toString() + " Tab Reselected")
+        setMessageText("${position + 1} Tab Reselected")
     }
 
     private fun setMessageText(messageText: String) {
@@ -245,5 +251,23 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, CompoundButton.O
                 else -> replace(R.id.home_activity_frag_container, fragment6)
             }
         }.commitAllowingStateLoss()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(lastSelectedPosition)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<HomeActivity> {
+        override fun createFromParcel(parcel: Parcel): HomeActivity {
+            return HomeActivity(parcel)
+        }
+
+        override fun newArray(size: Int): Array<HomeActivity?> {
+            return arrayOfNulls(size)
+        }
     }
 }
